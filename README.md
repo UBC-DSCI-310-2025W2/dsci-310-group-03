@@ -1,1 +1,16 @@
-# dsci-310-group-03
+# [Project Title]
+
+## Contributors
+
+* Arnav Gupta
+* Ashley Chan
+* Jacob Andersen-Lum
+* Nathan Shack
+
+## Summary
+
+## How to Run the Analysis
+
+## Dependencies
+
+## Licenses
