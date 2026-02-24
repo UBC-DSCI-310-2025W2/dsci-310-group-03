@@ -39,7 +39,15 @@
 
 ## Dependencies
 
-*TODO: List dependencies once the analysis environment is set up (these will also be captured in the Dockerfile).*
+The project dependencies are listed in [environment.yml](environment.yml). Key packages include:
+
+- Python 3.11
+- JupyterLab
+- pandas
+- scikit-learn
+- matplotlib
+
+*TODO: Update this list as the analysis develops.*
 
 ## Licenses
 

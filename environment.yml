@@ -1,0 +1,11 @@
+name: dsci-310-group-03
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - jupyterlab
+  - pandas
+  - scikit-learn
+  - matplotlib
+  # TODO: Add/update dependencies as the analysis develops
