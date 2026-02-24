@@ -1,4 +1,4 @@
-# Contributing to [Project Title]
+# Contributing to DSCI 310 Group 03 Project
 
 We welcome all contributions to this project!
 
