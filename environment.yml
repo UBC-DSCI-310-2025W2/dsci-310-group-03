@@ -8,4 +8,5 @@ dependencies:
   - pandas
   - scikit-learn
   - matplotlib
-  # TODO: Add/update dependencies as the analysis develops
+  - pip:
+    - ucimlrepo
