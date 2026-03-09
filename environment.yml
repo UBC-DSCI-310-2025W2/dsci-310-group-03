@@ -8,5 +8,6 @@ dependencies:
   - pandas
   - scikit-learn
   - matplotlib
+  - seaborn
   - pip:
     - ucimlrepo
