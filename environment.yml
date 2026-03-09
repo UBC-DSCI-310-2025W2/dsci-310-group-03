@@ -9,5 +9,7 @@ dependencies:
   - scikit-learn
   - matplotlib
   - seaborn
+  - pip
   - pip:
     - ucimlrepo
+    - click
