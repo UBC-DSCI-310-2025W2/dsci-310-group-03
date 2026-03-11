@@ -1,19 +1,23 @@
 ---
 title: Predicting Wine Quality from Physicochemical Properties
+author: 
+    - Arnav Gupta
+    - Ashley Chan
+    - Jacob Andersen-Lum
+    - Nathan Shack  
 jupyter: python3
+editor: visual
+format: html
+bibliography: references.bib
+execute:
+    echo: false       # hides all code from the output
+    warning: false    # hides warnings
+    message: false    # hides messages (e.g., package load messages)
 ---
-
-
-**DSCI 310 Group 03**
-* Arnav Gupta
-* Ashley Chan
-* Jacob Andersen-Lum
-* Nathan Shack
 
 ## Summary
 
-This project investigates whether the quality of wine can be predicted from its physicochemical properties using a K-Nearest Neighbors (KNN) regression approach. We use the Wine Quality dataset from the UCI Machine Learning Repository (Cortez et al., 2009), which contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples. We train a KNN regression model to predict wine quality scores from features such as alcohol content, acidity, pH, and residual sugar.
-
+This project investigates whether the quality of wine can be predicted from its physicochemical properties using a K-Nearest Neighbors (KNN) regression approach. We use the Wine Quality dataset from the UCI Machine Learning Repository [@CORTEZ2009547], which contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples. We train a KNN regression model to predict wine quality scores from features such as alcohol content, acidity, pH, and residual sugar.
 
 ## Introduction
 
@@ -21,9 +25,9 @@ Wine quality evaluation has historically been a very subjective process that mai
 
 This leads us to our primary predictive question: **Can we predict the quality score of a wine based on its physicochemical properties?**
 
-To answer this question, we utilize the Wine Quality dataset from the UCI Machine Learning Repository (Cortez et al., 2009; Dua & Graff, 2019). The sensory and chemical information in this dataset comes from samples of "Vinho Verde," a well-known wine made in Portugal's Minho region. Each wine sample in the dataset includes 11 continuous physicochemical characteristics, alongside a target variable: a sensory quality rating assessed by human experts on an integer scale from 0 to 10. We merge the red and white wine datasets into a single, comprehensive dataset for the purposes of this analysis.
+To answer this question, we utilize the Wine Quality dataset from the UCI Machine Learning Repository (Cortez et al., 2009; Dua & Graff, 2019). The sensory and chemical information in this dataset comes from samples of "Vinho Verde," a well-known wine made in Portugal's Minho region. Each wine sample in the dataset includes 11 continuous physicochemical characteristics, alongside a target variable: a sensory quality rating assessed by human experts on an integer scale from 3 to 10. We merge the red and white wine datasets into a single, comprehensive dataset for the purposes of this analysis.
 
-To model the relationship between the chemical inputs and the quality output, we will employ a K-Nearest Neighbors (KNN) regression approach (Hastie et al., 2009). By standardizing the chemical features and using cross-validation, our model will attempt to predict a wine's quality score based on the ratings of wines with the most similar chemical profiles.
+To model the relationship between the chemical inputs and the quality output, we will employ a K-Nearest Neighbors (KNN) regression approach [@hastie_tibshirani_friedman_2009]. By standardizing the chemical features and using cross-validation, our model will attempt to predict a wine's quality score based on the ratings of wines with the most similar chemical profiles.
 
 ## Methods & Results
 
@@ -39,6 +43,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import make_pipeline
+from IPython.display import Markdown
 ```
 
 ### Data Loading
@@ -66,79 +71,110 @@ print(f"\nQuality score distribution:\n{wine_df['quality'].value_counts().sort_i
 
 ### Data
 
-The Wine Quality dataset contains physicochemical properties and sensory quality ratings of red and white wines. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alchohol levels. The target variable, `quality`, is an ordinal score from 3-9 assigned by human tasters based on sensory evaluation.
+```{python}
+#| label: tbl-variables
+#| tbl-cap: "Wine Variables"
 
+variables = {
+    "Variable": [
+        "fixed_acidity", "volatile_acidity", "citric_acid", "residual_sugar",
+        "chlorides", "free_sulfur_dioxide", "total_sulfur_dioxide", "density",
+        "pH", "sulphates", "alcohol", "quality"
+    ],
+    "Role": [
+        "Feature", "Feature", "Feature", "Feature",
+        "Feature", "Feature", "Feature", "Feature",
+        "Feature", "Feature", "Feature", "Target"
+    ],
+    "Type": [
+        "Continuous", "Continuous", "Continuous", "Continuous",
+        "Continuous", "Continuous", "Continuous", "Continuous",
+        "Continuous", "Continuous", "Continuous", "Ordinal"
+    ],
+    "Missing": ["No"] * 12,
+    "Description": [
+        "Amount of fixed (non-volatile) acids; mainly tartaric acid (g/dm³)",
+        "Amount of acetic acid; high levels lead to a vinegar taste (g/dm³)",
+        "Small quantities add freshness and flavour (g/dm³)",
+        "Sugar remaining after fermentation stops (g/dm³)",
+        "Amount of salt in the wine (g/dm³)",
+        "Free form of SO₂; prevents microbial growth and oxidation (mg/dm³)",
+        "Total SO₂ (free + bound); detectable above 50 mg/L (mg/dm³)",
+        "Density of the wine, close to water depending on alcohol/sugar content (g/cm³)",
+        "Acidity on a 0–14 scale; most wines fall between 3–4",
+        "Additive contributing to SO₂ levels; acts as antimicrobial agent (g/dm³)",
+        "Percentage of alcohol by volume (% vol)",
+        "Wine quality score assigned by sensory evaluation (integer, 0–10)"
+    ]
+}
 
-Table 1. Predictor variables used for analysis
-| Variable             | Role    | Type       | Missing | Description                                                                    |
-| -------------------- | ------- | ---------- | ------- | ------------------------------------------------------------------------------ |
-| fixed_acidity        | Feature | Continuous | No      | Amount of fixed (non-volatile) acids; mainly tartaric acid (g/dm³)             |
-| volatile_acidity     | Feature | Continuous | No      | Amount of acetic acid; high levels lead to a vinegar taste (g/dm³)             |
-| citric_acid          | Feature | Continuous | No      | Small quantities add freshness and flavour (g/dm³)                             |
-| residual_sugar       | Feature | Continuous | No      | Sugar remaining after fermentation stops (g/dm³)                               |
-| chlorides            | Feature | Continuous | No      | Amount of salt in the wine (g/dm³)                                             |
-| free_sulfur_dioxide  | Feature | Continuous | No      | Free form of SO₂; prevents microbial growth and oxidation (mg/dm³)             |
-| total_sulfur_dioxide | Feature | Continuous | No      | Total SO₂ (free + bound); detectable above 50 mg/L (mg/dm³)                    |
-| density              | Feature | Continuous | No      | Density of the wine, close to water depending on alcohol/sugar content (g/cm³) |
-| pH                   | Feature | Continuous | No      | Acidity on a 0–14 scale; most wines fall between 3–4                           |
-| sulphates            | Feature | Continuous | No      | Additive contributing to SO₂ levels; acts as antimicrobial agent (g/dm³)       |
-| alcohol              | Feature | Continuous | No      | Percentage of alcohol by volume (% vol)                                        |
-| quality              | Target  | Ordinal    | No      | Wine quality score assigned by sensory evaluation (integer, 0–10)              |
+min_quality = int(wine_df["quality"].min())
+max_quality = int(wine_df["quality"].max())
 
-
-
-### Data Wrangling
-
-The Wine Quality dataset comes relatively clean with no missing values. We combine the features and target into a single DataFrame and save the processed data for downstream analysis.
-
+df = pd.DataFrame(variables)
+Markdown(df.to_markdown(index=False))
+```
 ```{python}
 # Save processed data to data/ directory
 
 file_path = "../data/wine_quality_processed.csv"
 
-if not os.path.exists(file_path): #check to see if file is already downloaded
-    wine_df.to_csv(file_path, index=False)
-    print(f"Processed data saved to {file_path}")
-else:
-    print(f"File already exists: {file_path}")
-    
+wine_df.to_csv(file_path, index=False)
 
-print(f"Dataset shape: {wine_df.shape}")
+wine_df_shape = wine_df.shape
 ```
+
+The Wine Quality dataset comes relatively clean with no missing values. We combine the features and target into a single DataFrame and save the processed data for downstream analysis. The dataset has `{python} wine_df_shape[0]` rows and `{python} wine_df_shape[1]` columns.
+
+@tbl-variables contains the physicochemical properties and sensory quality ratings of red and white wines found within the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alchohol levels. The target variable, `quality`, is an ordinal score from `{python} min_quality`-`{python} max_quality` assigned by human tasters based on sensory evaluation.
 
 ### Exploratory Data Analysis
 
 #### Summary Statistics
-
-The output below provides summary statistics for all numeric features in the dataset, including count, mean, standard deviation, minimum, maximum, and quartiles (25%, 50%, 75%) for each variable. This provides a quick glance at the general spread and range of the features in the dataset. 
-
-Most wines have moderate acidity, low volatile acidity, and around 9-11% alcohol, with a median quality of 6. 
-
 ```{python}
-wine_df.describe()
+#| label: tbl-wine-describe
+#| tbl-cap: "Description of the variables in the wine dataset"
+
+wine_df_describe_table = wine_df.describe()
+
+quality_mode =  int(wine_df["quality"].mode()[0])
+
+Markdown(wine_df_describe_table.to_markdown(index=False))
 ```
+
+Above, @tbl-wine-describe below provides summary statistics for all numeric features in the dataset, including count, mean, standard deviation, minimum, maximum, and quartiles (25%, 50%, 75%) for each variable. This provides a quick glance at the general spread and range of the features in the dataset.
+
+Most wines have moderate acidity, low volatile acidity, and around 9-11% alcohol, with a median quality of `{python} quality_mode`.
 
 ##### Distribution of Wine Quality
 
-Below is a distrubution of wine quality scores as a bar chart, showing how many wines in the dataset fall into each quality category.
-
-The target variable, Wine Quality, is approximately normally distributed, with a mean of 5.8 and a mode of 6. Most wines fall in the mid-quality range of 5–7, indicating that extremely low or high quality wines are less common.
-
 ```{python}
+
+#| label: fig-wine-quality-distribution-bar
+#| fig-cap: "Distribution of Wine Quality Scores"
+
 quality_counts = wine_df['quality'].value_counts()
 
 plt.bar(quality_counts.index, quality_counts.values)
-plt.title('Figure 1: Distribution of Wine Quality')
 plt.xlabel('Quality')
 plt.ylabel('Count')
 plt.show()
 
-print(f"Quality Counts of Wine Quality: {quality_counts}")
-print(f"Mean Wine Quality: {wine_df['quality'].mean():.2g}")
-print(f"Median Wine Quality: {wine_df['quality'].median()}")
-print(f"Most Frequent Wine Quality: {wine_df['quality'].mode()[0]}")
-print(f"Standard Deviation of Wine Quality: {wine_df['quality'].std()}")
+mean_quality = round(float(wine_df['quality'].mean()), 2)
+median_quality = round(float(wine_df['quality'].median()), 2)
+mode_quality = int(wine_df['quality'].mode()[0])
+std_quality = round(float(wine_df['quality'].std()), 2)
+
+# print(f"Quality Counts of Wine Quality: {quality_counts}")
+# print(f"Mean Wine Quality: {wine_df['quality'].mean():.2g}")
+# print(f"Median Wine Quality: {wine_df['quality'].median()}")
+# print(f"Most Frequent Wine Quality: {wine_df['quality'].mode()[0]}")
+# print(f"Standard Deviation of Wine Quality: {wine_df['quality'].std()}")
 ```
+
+@fig-wine-quality-distribution-bar is a distrubution of wine quality scores as a bar chart, showing how many wines in the dataset fall into each quality category.
+
+The target variable, Wine Quality, is approximately normally distributed, with a mean of `{python} mean_quality` and a mode of `{python} mode_quality`. Most wines fall in the mid-quality range of `{python} mean_quality-std_quality` - `{python} mean_quality+std_quality`, indicating that extremely low or high quality wines are less common.
 
 ##### Correlation Heatmap of Wine Features
 
@@ -172,7 +208,7 @@ plt.show()
 
 We will perform K-Nearest Neighbors (KNN) regression to predict wine quality based on the chemical features of the wines. The dataset will be split into a training set and a 30% test set, and a pipeline will be used to preprocess and scale all features using scikit-learn (Pedregosa et al., 2011). We will then conduct a grid search to select the optimal number of neighbors (K) and evaluate the model’s performance on the test set to assess its predictive accuracy.
 
-#### Splitting the Data into Training & Testing Sets 
+#### Splitting the Data into Training & Testing Sets
 
 The dataset will be split into 70% training data and 30% test data
 
@@ -258,7 +294,7 @@ The best value of K is 21, providing a CV score of 0.343 and training score of 0
 
 #### Evaluating on the Test Set
 
-After selecting the optimal value of K = 21, we will fit the final K-Nearest Neighbors model on the training set and evaluate the model performance on unseen data (test set). We will use R^2 to assess the quality of the predictions.
+After selecting the optimal value of K = 21, we will fit the final K-Nearest Neighbors model on the training set and evaluate the model performance on unseen data (test set). We will use R\^2 to assess the quality of the predictions.
 
 ```{python}
 best_model.fit(X_train, y_train)
@@ -292,9 +328,9 @@ Despite the modest accuracy, establishing this baseline relationship holds pract
 
 The limitations of this study open the door to several promising avenues for future research:
 
-* **Model Complexity:** KNN treats all standardized features with equal weight when calculating distances. Future projects should explore more complex, tree-based models (such as Random Forests or Gradient Boosting) that can better capture non-linear relationships and interactions between complex chemical compounds.
-* **Feature Importance:** Exploring algorithms that provide feature importance scores could help winemakers pinpoint exactly which chemical balances (e.g., the ratio of residual sugar to acidity) have the greatest impact on human taste.
-* **Dataset Segmentation:** Red and white wines have fundamentally different chemical profiles and sensory expectations. A logical next step would be to separate the dataset and train distinct models for red and white wines to see if predictive accuracy improves when the wine types are isolated.
+-   **Model Complexity:** KNN treats all standardized features with equal weight when calculating distances. Future projects should explore more complex, tree-based models (such as Random Forests or Gradient Boosting) that can better capture non-linear relationships and interactions between complex chemical compounds.
+-   **Feature Importance:** Exploring algorithms that provide feature importance scores could help winemakers pinpoint exactly which chemical balances (e.g., the ratio of residual sugar to acidity) have the greatest impact on human taste.
+-   **Dataset Segmentation:** Red and white wines have fundamentally different chemical profiles and sensory expectations. A logical next step would be to separate the dataset and train distinct models for red and white wines to see if predictive accuracy improves when the wine types are isolated.
 
 ## References
 
@@ -305,4 +341,3 @@ Dua, D., & Graff, C. (2019). *UCI Machine Learning Repository*. University of Ca
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The elements of statistical learning: Data mining, inference, and prediction* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-84858-7
 
 Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research*, *12*, 2825–2830.
-

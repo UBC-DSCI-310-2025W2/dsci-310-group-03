@@ -13,3 +13,4 @@ dependencies:
   - pip:
     - ucimlrepo
     - click
+    - tabulate
