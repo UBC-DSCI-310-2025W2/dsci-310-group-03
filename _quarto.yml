@@ -3,7 +3,7 @@ project:
 
 toc: true
 number-sections: true
-bibliography: references.bib  
+bibliography: notebooks/references.bib
   
 format:
   html:

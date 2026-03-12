@@ -20,7 +20,7 @@ Wine quality evaluation has historically been a very subjective process that mai
 
 This leads us to our primary predictive question: **Can we predict the quality score of a wine based on its physicochemical properties?**
 
-To answer this question, we utilize the Wine Quality dataset from the UCI Machine Learning Repository [@CORTEZ2009547; @10.5555/1953048.2078195]. The sensory and chemical information in this dataset comes from samples of "Vinho Verde," a well-known wine made in Portugal's Minho region. Each wine sample in the dataset includes 11 continuous physicochemical characteristics, alongside a target variable: a sensory quality rating assessed by human experts on an integer scale from 3 to 10. We merge the red and white wine datasets into a single, comprehensive dataset for the purposes of this analysis.
+To answer this question, we utilize the Wine Quality dataset from the UCI Machine Learning Repository [@CORTEZ2009547; @kelly_longjohn_nottingham]. The sensory and chemical information in this dataset comes from samples of "Vinho Verde," a well-known wine made in Portugal's Minho region. Each wine sample in the dataset includes 11 continuous physicochemical characteristics, alongside a target variable: a sensory quality rating assessed by human experts on an integer scale from 3 to 10. We merge the red and white wine datasets into a single, comprehensive dataset for the purposes of this analysis.
 
 To model the relationship between the chemical inputs and the quality output, we will employ a $K$-Nearest Neighbors (KNN) regression approach [@hastie_tibshirani_friedman_2009]. By standardizing the chemical features and using cross-validation, our model will attempt to predict a wine's quality score based on the ratings of wines with the most similar chemical profiles.
 
@@ -59,18 +59,13 @@ wine_df.head()
 # print(f"\nQuality score distribution:\n{wine_df['quality'].value_counts().sort_index()}")
 ```
 
-We load the Wine Quality dataset directly from the UCI Machine Learning Repository using the `ucimlrepo` package. This ensures the data is reproducibly downloaded from the original source. @tbl-wine-head shows the first 5 rows of the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alchohol levels.
+We load the Wine Quality dataset directly from the UCI Machine Learning Repository using the `ucimlrepo` package. This ensures the data is reproducibly downloaded from the original source. @tbl-wine-head shows the first 5 rows of the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alcohol levels.
 
 ### Data
 
 ```{python}
 #| label: tbl-variables
 #| tbl-cap: "Wine Variables"
-
-#saving file
-file_path = "../data/wine_quality_processed.csv"
-
-wine_df.to_csv(file_path, index=False)
 
 wine_df_shape = wine_df.shape
 
@@ -136,7 +131,7 @@ quality_median =  int(wine_df["quality"].median())
 Markdown(wine_df_describe_table.to_markdown())
 ```
 
-Above, @tbl-wine-describe below provides summary statistics for all numeric features in the dataset, including count, mean, standard deviation, minimum, maximum, and quartiles (25%, 50%, 75%) for each variable. This provides a quick glance at the general spread and range of the features in the dataset.
+@tbl-wine-describe provides summary statistics for all numeric features in the dataset, including count, mean, standard deviation, minimum, maximum, and quartiles (25%, 50%, 75%) for each variable. This provides a quick glance at the general spread and range of the features in the dataset.
 
 Most wines have moderate acidity, low volatile acidity, and around `{python} mean_alcohol-std_alcohol`%-`{python} mean_alcohol+std_alcohol`% alcohol, with a median quality of `{python} quality_median`.
 
@@ -166,7 +161,6 @@ The target variable, `quality`, is approximately normally distributed, with a me
 ##### Correlation Heatmap of Wine Features
 
 ```{python}
-
 #| label: fig-heatmap-correlation
 #| fig-cap: "Correlation Heatmap of Wine Features"
 
@@ -191,7 +185,6 @@ We can see that the features `density` and `alcohol` have a strong inverse relat
 ##### Correlation of Alcohol and Quality
 
 ```{python}
-
 #| label: fig-boxplots-quality-alcohol
 #| fig-cap: "Alcohol Content by Wine Quality"
 
@@ -220,7 +213,7 @@ test_size = 0.3
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=123)
 ```
 
-We will perform $K$-Nearest Neighbors (KNN) regression to predict wine quality based on the chemical features of the wines. The dataset will be split into a into a `{python} (1-test_size)*100`% training set and `{python} test_size*100`% test set, and a pipeline will be used to preprocess and scale all features using scikit-learn [@10.5555/1953048.2078195]. We will then conduct a grid search to select the optimal number of neighbors ($K$) and evaluate the model’s performance on the test set to assess its predictive accuracy.
+We will perform $K$-Nearest Neighbors (KNN) regression to predict wine quality based on the chemical features of the wines. The dataset will be split into a `{python} (1-test_size)*100`% training set and `{python} test_size*100`% test set, and a pipeline will be used to preprocess and scale all features using scikit-learn [@10.5555/1953048.2078195]. We will then conduct a grid search to select the optimal number of neighbors ($K$) and evaluate the model’s performance on the test set to assess its predictive accuracy.
 
 #### Splitting the Data into Training & Testing Sets
 
@@ -270,11 +263,11 @@ best_train_score = best_model.score(X_train, y_train)
 # print(f"Best Train Score: {best_train_score:.5g}")
 ```
 
-We will perform a grid seearch to identify the optimal number of neighbours ($K$) for the $K$-Nearest Neighbors regression model. This involves evaluating a range of $K$ values between `{python} k_values[0]` and `{python} k_values[-1]` using cross validation on the training set to measure model performance. The best performing value of K will be used to fit the final model and evaluate its performance on the test set.
+We will perform a grid search to identify the optimal number of neighbours ($K$) for the $K$-Nearest Neighbors regression model. This involves evaluating a range of $K$ values between `{python} k_values[0]` and `{python} k_values[-1]` using cross validation on the training set to measure model performance. The best performing value of K will be used to fit the final model and evaluate its performance on the test set.
 
 ```{python}
 #| label: tbl-grid-search
-#| fig-cap: "Results of Grid Search Cross Validation to Find the Best K"
+#| tbl-cap: "Results of Grid Search Cross Validation to Find the Best K"
 
 results = pd.DataFrame(grid.cv_results_)[
     ['params', 'mean_test_score', 'std_test_score', 'mean_train_score', 'std_train_score']
