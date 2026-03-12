@@ -28,4 +28,11 @@ data/*.csv
 
 # Generated pipeline outputs (figures and tables created by running the pipeline)
 results/*
+
+# Quarto rendered output
+_output/
+
 !results/.gitkeep
+
+/.quarto/
+**/*.quarto_ipynb
