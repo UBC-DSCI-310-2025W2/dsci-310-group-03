@@ -1,14 +1,9 @@
 ---
 title: Predicting Wine Quality from Physicochemical Properties
-author: 
-    - Arnav Gupta
-    - Ashley Chan
-    - Jacob Andersen-Lum
-    - Nathan Shack  
+author: "Arnav Gupta, Ashley Chan, Jacob Andersen-Lum, Nathan Shack"
 jupyter: python3
 editor: visual
 format: html
-bibliography: references.bib
 execute:
     echo: false       # hides all code from the output
     warning: false    # hides warnings

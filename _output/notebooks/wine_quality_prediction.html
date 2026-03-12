@@ -6,10 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Arnav Gupta">
-<meta name="author" content="Ashley Chan">
-<meta name="author" content="Jacob Andersen-Lum">
-<meta name="author" content="Nathan Shack">
+<meta name="author" content="Arnav Gupta, Ashley Chan, Jacob Andersen-Lum, Nathan Shack">
 
 <title>Predicting Wine Quality from Physicochemical Properties</title>
 <style>
@@ -63,8 +60,22 @@ div.csl-indent {
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -93,12 +104,30 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary"><span class="header-section-number">1</span> Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">2</span> Introduction</a></li>
+  <li><a href="#methods-results" id="toc-methods-results" class="nav-link" data-scroll-target="#methods-results"><span class="header-section-number">3</span> Methods &amp; Results</a>
+  <ul class="collapse">
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading"><span class="header-section-number">3.1</span> Data Loading</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">3.2</span> Data</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><span class="header-section-number">3.3</span> Exploratory Data Analysis</a></li>
+  <li><a href="#regression-analysis" id="toc-regression-analysis" class="nav-link" data-scroll-target="#regression-analysis"><span class="header-section-number">3.4</span> Regression Analysis</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4</span> Discussion</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -111,12 +140,9 @@ window.Quarto = {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Arnav Gupta </p>
-             <p>Ashley Chan </p>
-             <p>Jacob Andersen-Lum </p>
-             <p>Nathan Shack </p>
+             <p>Arnav Gupta, Ashley Chan, Jacob Andersen-Lum, Nathan Shack </p>
           </div>
   </div>
     
@@ -129,21 +155,21 @@ window.Quarto = {
 </header>
 
 
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This project investigates whether the quality of wine can be predicted from its physicochemical properties using a <span class="math inline">\(K\)</span>-Nearest Neighbors (KNN) regression approach. We use the Wine Quality dataset from the UCI Machine Learning Repository <span class="citation" data-cites="CORTEZ2009547">(<a href="#ref-CORTEZ2009547" role="doc-biblioref">Cortez et al. 2009</a>)</span>, which contains physicochemical measurements and sensory quality ratings for Portuguese “Vinho Verde” wine samples. We train a KNN regression model to predict wine quality scores from features such as alcohol content, acidity, pH, and residual sugar.</p>
+<section id="summary" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="summary"><span class="header-section-number">1</span> Summary</h2>
+<p>This project investigates whether the quality of wine can be predicted from its physicochemical properties using a <span class="math inline">K</span>-Nearest Neighbors (KNN) regression approach. We use the Wine Quality dataset from the UCI Machine Learning Repository <span class="citation" data-cites="CORTEZ2009547">(<a href="#ref-CORTEZ2009547" role="doc-biblioref">Cortez et al. 2009</a>)</span>, which contains physicochemical measurements and sensory quality ratings for Portuguese “Vinho Verde” wine samples. We train a KNN regression model to predict wine quality scores from features such as alcohol content, acidity, pH, and residual sugar.</p>
 </section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
 <p>Wine quality evaluation has historically been a very subjective process that mainly relies on human tasters’ sensory skills to evaluate intricate flavor profiles, aromas, and textures. Although human evaluation is crucial, it can be costly, time-consuming, and biased. Researchers and winemakers are increasingly using objective measurements - the physicochemical characteristics of wine - to supplement sensory testing. These properties refer to the quantifiable chemical and physical attributes of the liquid, such as its alcohol content, acidity levels, pH, and residual sugar. We can investigate the connection between a wine’s chemical composition and its perceived human taste by examining such objective metrics.</p>
 <p>This leads us to our primary predictive question: <strong>Can we predict the quality score of a wine based on its physicochemical properties?</strong></p>
 <p>To answer this question, we utilize the Wine Quality dataset from the UCI Machine Learning Repository <span class="citation" data-cites="CORTEZ2009547 10.5555/1953048.2078195">(<a href="#ref-CORTEZ2009547" role="doc-biblioref">Cortez et al. 2009</a>; <a href="#ref-10.5555/1953048.2078195" role="doc-biblioref">Pedregosa et al. 2011</a>)</span>. The sensory and chemical information in this dataset comes from samples of “Vinho Verde,” a well-known wine made in Portugal’s Minho region. Each wine sample in the dataset includes 11 continuous physicochemical characteristics, alongside a target variable: a sensory quality rating assessed by human experts on an integer scale from 3 to 10. We merge the red and white wine datasets into a single, comprehensive dataset for the purposes of this analysis.</p>
-<p>To model the relationship between the chemical inputs and the quality output, we will employ a <span class="math inline">\(K\)</span>-Nearest Neighbors (KNN) regression approach <span class="citation" data-cites="hastie_tibshirani_friedman_2009">(<a href="#ref-hastie_tibshirani_friedman_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>)</span>. By standardizing the chemical features and using cross-validation, our model will attempt to predict a wine’s quality score based on the ratings of wines with the most similar chemical profiles.</p>
+<p>To model the relationship between the chemical inputs and the quality output, we will employ a <span class="math inline">K</span>-Nearest Neighbors (KNN) regression approach <span class="citation" data-cites="hastie_tibshirani_friedman_2009">(<a href="#ref-hastie_tibshirani_friedman_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>)</span>. By standardizing the chemical features and using cross-validation, our model will attempt to predict a wine’s quality score based on the ratings of wines with the most similar chemical profiles.</p>
 </section>
-<section id="methods-results" class="level2">
-<h2 class="anchored" data-anchor-id="methods-results">Methods &amp; Results</h2>
-<section id="data-loading" class="level3">
-<h3 class="anchored" data-anchor-id="data-loading">Data Loading</h3>
+<section id="methods-results" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="methods-results"><span class="header-section-number">3</span> Methods &amp; Results</h2>
+<section id="data-loading" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="data-loading"><span class="header-section-number">3.1</span> Data Loading</h3>
 <div class="cell" data-execution_count="1">
 <div id="tbl-wine-head" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="1">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -151,7 +177,7 @@ window.Quarto = {
 Table&nbsp;1: First five rows of the Wine Quality dataset
 </figcaption>
 <div aria-describedby="tbl-wine-head-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
@@ -260,8 +286,8 @@ Table&nbsp;1: First five rows of the Wine Quality dataset
 </div>
 <p>We load the Wine Quality dataset directly from the UCI Machine Learning Repository using the <code>ucimlrepo</code> package. This ensures the data is reproducibly downloaded from the original source. <a href="#tbl-wine-head" class="quarto-xref">Table&nbsp;1</a> shows the first 5 rows of the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alchohol levels.</p>
 </section>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
+<section id="data" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="data"><span class="header-section-number">3.2</span> Data</h3>
 <div class="cell" data-execution_count="2">
 <div id="tbl-variables" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="2">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -269,7 +295,7 @@ Table&nbsp;1: First five rows of the Wine Quality dataset
 Table&nbsp;2: Wine Variables
 </figcaption>
 <div aria-describedby="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="15">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 16%">
@@ -382,10 +408,10 @@ Table&nbsp;2: Wine Variables
 <p><a href="#tbl-variables" class="quarto-xref">Table&nbsp;2</a> contains the physicochemical properties and sensory quality ratings of red and white wines found within the Wine Quality dataset. The target variable, <code>quality</code>, is an ordinal score from 3-9 assigned by human tasters based on sensory evaluation.</p>
 <p>The Wine Quality dataset comes relatively clean with no missing values. The dataset has 6497 rows and 12 columns.</p>
 </section>
-<section id="exploratory-data-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
-<section id="summary-statistics" class="level4">
-<h4 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h4>
+<section id="exploratory-data-analysis" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="exploratory-data-analysis"><span class="header-section-number">3.3</span> Exploratory Data Analysis</h3>
+<section id="summary-statistics" class="level4" data-number="3.3.1">
+<h4 data-number="3.3.1" class="anchored" data-anchor-id="summary-statistics"><span class="header-section-number">3.3.1</span> Summary Statistics</h4>
 <div class="cell" data-execution_count="3">
 <div id="tbl-wine-describe" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -393,7 +419,7 @@ Table&nbsp;2: Wine Variables
 Table&nbsp;3: Description of the variables in the wine dataset
 </figcaption>
 <div aria-describedby="tbl-wine-describe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 3%">
@@ -557,8 +583,8 @@ Table&nbsp;3: Description of the variables in the wine dataset
 </div>
 <p>Above, <a href="#tbl-wine-describe" class="quarto-xref">Table&nbsp;3</a> below provides summary statistics for all numeric features in the dataset, including count, mean, standard deviation, minimum, maximum, and quartiles (25%, 50%, 75%) for each variable. This provides a quick glance at the general spread and range of the features in the dataset.</p>
 <p>Most wines have moderate acidity, low volatile acidity, and around 9.3%-11.68% alcohol, with a median quality of 6.</p>
-<section id="distribution-of-wine-quality" class="level5">
-<h5 class="anchored" data-anchor-id="distribution-of-wine-quality">Distribution of Wine Quality</h5>
+<section id="distribution-of-wine-quality" class="level5" data-number="3.3.1.1">
+<h5 data-number="3.3.1.1" class="anchored" data-anchor-id="distribution-of-wine-quality"><span class="header-section-number">3.3.1.1</span> Distribution of Wine Quality</h5>
 <div id="cell-fig-wine-quality-distribution-bar" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div id="fig-wine-quality-distribution-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -576,14 +602,14 @@ Figure&nbsp;1: Distribution of Wine Quality Scores
 <p><a href="#fig-wine-quality-distribution-bar" class="quarto-xref">Figure&nbsp;1</a> shows the distribution of wine quality scores as a bar chart, illustrating how many wines in the dataset fall into each quality category.</p>
 <p>The target variable, <code>quality</code>, is approximately normally distributed, with a mean of 5.82 and a mode of 6. Most wines fall within the mid-quality range of 4.95 to 6.69, indicating that extremely low or high-quality wines are relatively uncommon.</p>
 </section>
-<section id="correlation-heatmap-of-wine-features" class="level5">
-<h5 class="anchored" data-anchor-id="correlation-heatmap-of-wine-features">Correlation Heatmap of Wine Features</h5>
+<section id="correlation-heatmap-of-wine-features" class="level5" data-number="3.3.1.2">
+<h5 data-number="3.3.1.2" class="anchored" data-anchor-id="correlation-heatmap-of-wine-features"><span class="header-section-number">3.3.1.2</span> Correlation Heatmap of Wine Features</h5>
 <div id="cell-fig-heatmap-correlation" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div id="fig-heatmap-correlation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-heatmap-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="wine_quality_prediction_files/figure-html/fig-heatmap-correlation-output-1.png" width="731" height="695" class="figure-img">
+<img src="wine_quality_prediction_files/figure-html/fig-heatmap-correlation-output-1.png" width="732" height="696" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Correlation Heatmap of Wine Features
@@ -595,8 +621,8 @@ Figure&nbsp;2: Correlation Heatmap of Wine Features
 <p>The <a href="#fig-heatmap-correlation" class="quarto-xref">Figure&nbsp;2</a> correlation heatmap visualizes the correlation between all features within the wine dataset.</p>
 <p>We can see that the features <code>density</code> and <code>alcohol</code> have a strong inverse relationship (-0.69). <code>total_sulfur_dioxide</code> is strongly correlated with <code>free_sulfur_dioxide</code> (0.72), which makes sense since the free sulfur dioxide is included in the total amount. <code>residual_sugar</code> shows moderate correlations with <code>total_sulfur_dioxide</code>, <code>free_sulfur_dioxide</code>, and <code>density</code>. The target variable <code>quality</code> has its strongest relationships with <code>alcohol</code> (0.44) and <code>volatile_acidity</code> (-0.27), suggesting that these features may be particularly important for predicting wine quality.</p>
 </section>
-<section id="correlation-of-alcohol-and-quality" class="level5">
-<h5 class="anchored" data-anchor-id="correlation-of-alcohol-and-quality">Correlation of Alcohol and Quality</h5>
+<section id="correlation-of-alcohol-and-quality" class="level5" data-number="3.3.1.3">
+<h5 data-number="3.3.1.3" class="anchored" data-anchor-id="correlation-of-alcohol-and-quality"><span class="header-section-number">3.3.1.3</span> Correlation of Alcohol and Quality</h5>
 <div id="cell-fig-boxplots-quality-alcohol" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div id="fig-boxplots-quality-alcohol" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -616,12 +642,12 @@ Figure&nbsp;3: Alcohol Content by Wine Quality
 </section>
 </section>
 </section>
-<section id="regression-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="regression-analysis">Regression Analysis</h3>
-<p>We will perform <span class="math inline">\(K\)</span>-Nearest Neighbors (KNN) regression to predict wine quality based on the chemical features of the wines. The dataset will be split into a into a 70.0% training set and 30.0% test set, and a pipeline will be used to preprocess and scale all features using scikit-learn <span class="citation" data-cites="10.5555/1953048.2078195">(<a href="#ref-10.5555/1953048.2078195" role="doc-biblioref">Pedregosa et al. 2011</a>)</span>. We will then conduct a grid search to select the optimal number of neighbors (<span class="math inline">\(K\)</span>) and evaluate the model’s performance on the test set to assess its predictive accuracy.</p>
-<section id="splitting-the-data-into-training-testing-sets" class="level4">
-<h4 class="anchored" data-anchor-id="splitting-the-data-into-training-testing-sets">Splitting the Data into Training &amp; Testing Sets</h4>
-<div id="1a7407f5" class="cell" data-execution_count="8">
+<section id="regression-analysis" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="regression-analysis"><span class="header-section-number">3.4</span> Regression Analysis</h3>
+<p>We will perform <span class="math inline">K</span>-Nearest Neighbors (KNN) regression to predict wine quality based on the chemical features of the wines. The dataset will be split into a into a 70.0% training set and 30.0% test set, and a pipeline will be used to preprocess and scale all features using scikit-learn <span class="citation" data-cites="10.5555/1953048.2078195">(<a href="#ref-10.5555/1953048.2078195" role="doc-biblioref">Pedregosa et al. 2011</a>)</span>. We will then conduct a grid search to select the optimal number of neighbors (<span class="math inline">K</span>) and evaluate the model’s performance on the test set to assess its predictive accuracy.</p>
+<section id="splitting-the-data-into-training-testing-sets" class="level4" data-number="3.4.1">
+<h4 data-number="3.4.1" class="anchored" data-anchor-id="splitting-the-data-into-training-testing-sets"><span class="header-section-number">3.4.1</span> Splitting the Data into Training &amp; Testing Sets</h4>
+<div id="c815c3f3" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>X training set size: (4547, 11)
 X testing set size: (1950, 11)</code></pre>
@@ -629,12 +655,12 @@ X testing set size: (1950, 11)</code></pre>
 </div>
 <p>There are 4547 columns in the train set and 1950 in the test set.</p>
 </section>
-<section id="creating-a-pipeline" class="level4">
-<h4 class="anchored" data-anchor-id="creating-a-pipeline">Creating a Pipeline</h4>
-<p>Since all the features in our dataset are numeric but may have different ranges and units, we will standardize them so that each feature contributes equally to the distance calculations in the <span class="math inline">\(K\)</span>-Nearest Neighbors model. This scaling step ensures that features with larger numerical values do not dominate the model and allows the algorithm to measure similarity between samples more accurately.</p>
-<div id="b4f6361b" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="22">
-<style>#sk-container-id-2 {
+<section id="creating-a-pipeline" class="level4" data-number="3.4.2">
+<h4 data-number="3.4.2" class="anchored" data-anchor-id="creating-a-pipeline"><span class="header-section-number">3.4.2</span> Creating a Pipeline</h4>
+<p>Since all the features in our dataset are numeric but may have different ranges and units, we will standardize them so that each feature contributes equally to the distance calculations in the <span class="math inline">K</span>-Nearest Neighbors model. This scaling step ensures that features with larger numerical values do not dominate the model and allows the algorithm to measure similarity between samples more accurately.</p>
+<div id="d2671943" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: #000;
   --sklearn-color-text-muted: #666;
@@ -651,7 +677,7 @@ X testing set size: (1950, 11)</code></pre>
   --sklearn-color-fitted-level-3: cornflowerblue;
 }
 
-#sk-container-id-2.light {
+#sk-container-id-1.light {
   /* Specific color for light theme */
   --sklearn-color-text-on-default-background: black;
   --sklearn-color-background: white;
@@ -659,22 +685,22 @@ X testing set size: (1950, 11)</code></pre>
   --sklearn-color-icon: #696969;
 }
 
-#sk-container-id-2.dark {
+#sk-container-id-1.dark {
   --sklearn-color-text-on-default-background: white;
   --sklearn-color-background: #111;
   --sklearn-color-border-box: white;
   --sklearn-color-icon: #878787;
 }
 
-#sk-container-id-2 {
+#sk-container-id-1 {
   color: var(--sklearn-color-text);
 }
 
-#sk-container-id-2 pre {
+#sk-container-id-1 pre {
   padding: 0;
 }
 
-#sk-container-id-2 input.sk-hidden--visually {
+#sk-container-id-1 input.sk-hidden--visually {
   border: 0;
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
@@ -686,7 +712,7 @@ X testing set size: (1950, 11)</code></pre>
   width: 1px;
 }
 
-#sk-container-id-2 div.sk-dashed-wrapped {
+#sk-container-id-1 div.sk-dashed-wrapped {
   border: 1px dashed var(--sklearn-color-line);
   margin: 0 0.4em 0.5em 0.4em;
   box-sizing: border-box;
@@ -694,7 +720,7 @@ X testing set size: (1950, 11)</code></pre>
   background-color: var(--sklearn-color-background);
 }
 
-#sk-container-id-2 div.sk-container {
+#sk-container-id-1 div.sk-container {
   /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
      but bootstrap.min.css set `[hidden] { display: none !important; }`
      so we also need the `!important` here to be able to override the
@@ -704,7 +730,7 @@ X testing set size: (1950, 11)</code></pre>
   position: relative;
 }
 
-#sk-container-id-2 div.sk-text-repr-fallback {
+#sk-container-id-1 div.sk-text-repr-fallback {
   display: none;
 }
 
@@ -720,14 +746,14 @@ div.sk-item {
 
 /* Parallel-specific style estimator block */
 
-#sk-container-id-2 div.sk-parallel-item::after {
+#sk-container-id-1 div.sk-parallel-item::after {
   content: "";
   width: 100%;
   border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
   flex-grow: 1;
 }
 
-#sk-container-id-2 div.sk-parallel {
+#sk-container-id-1 div.sk-parallel {
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -735,28 +761,28 @@ div.sk-item {
   position: relative;
 }
 
-#sk-container-id-2 div.sk-parallel-item {
+#sk-container-id-1 div.sk-parallel-item {
   display: flex;
   flex-direction: column;
 }
 
-#sk-container-id-2 div.sk-parallel-item:first-child::after {
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
   align-self: flex-end;
   width: 50%;
 }
 
-#sk-container-id-2 div.sk-parallel-item:last-child::after {
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
   align-self: flex-start;
   width: 50%;
 }
 
-#sk-container-id-2 div.sk-parallel-item:only-child::after {
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
   width: 0;
 }
 
 /* Serial-specific style estimator block */
 
-#sk-container-id-2 div.sk-serial {
+#sk-container-id-1 div.sk-serial {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -774,14 +800,14 @@ clickable and can be expanded/collapsed.
 
 /* Pipeline and ColumnTransformer style (default) */
 
-#sk-container-id-2 div.sk-toggleable {
+#sk-container-id-1 div.sk-toggleable {
   /* Default theme specific background. It is overwritten whether we have a
   specific estimator or a Pipeline/ColumnTransformer */
   background-color: var(--sklearn-color-background);
 }
 
 /* Toggleable label */
-#sk-container-id-2 label.sk-toggleable__label {
+#sk-container-id-1 label.sk-toggleable__label {
   cursor: pointer;
   display: flex;
   width: 100%;
@@ -794,13 +820,13 @@ clickable and can be expanded/collapsed.
   gap: 0.5em;
 }
 
-#sk-container-id-2 label.sk-toggleable__label .caption {
+#sk-container-id-1 label.sk-toggleable__label .caption {
   font-size: 0.6rem;
   font-weight: lighter;
   color: var(--sklearn-color-text-muted);
 }
 
-#sk-container-id-2 label.sk-toggleable__label-arrow:before {
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
   /* Arrow on the left of the label */
   content: "▸";
   float: left;
@@ -808,25 +834,25 @@ clickable and can be expanded/collapsed.
   color: var(--sklearn-color-icon);
 }
 
-#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
   color: var(--sklearn-color-text);
 }
 
 /* Toggleable content - dropdown */
 
-#sk-container-id-2 div.sk-toggleable__content {
+#sk-container-id-1 div.sk-toggleable__content {
   display: none;
   text-align: left;
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-2 div.sk-toggleable__content.fitted {
+#sk-container-id-1 div.sk-toggleable__content.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-#sk-container-id-2 div.sk-toggleable__content pre {
+#sk-container-id-1 div.sk-toggleable__content pre {
   margin: 0.2em;
   border-radius: 0.25em;
   color: var(--sklearn-color-text);
@@ -834,78 +860,78 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-2 div.sk-toggleable__content.fitted pre {
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
   /* unfitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
   /* Expand drop-down */
   display: block;
   width: 100%;
   overflow: visible;
 }
 
-#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
   content: "▾";
 }
 
 /* Pipeline/ColumnTransformer-specific style */
 
-#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-2 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator-specific style */
 
 /* Colorize estimator box */
-#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-2 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
-#sk-container-id-2 div.sk-label label.sk-toggleable__label,
-#sk-container-id-2 div.sk-label label {
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
   /* The background is the default theme color */
   color: var(--sklearn-color-text-on-default-background);
 }
 
 /* On hover, darken the color of the background */
-#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
 /* Label box, darken color on hover, fitted */
-#sk-container-id-2 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator label */
 
-#sk-container-id-2 div.sk-label label {
+#sk-container-id-1 div.sk-label label {
   font-family: monospace;
   font-weight: bold;
   line-height: 1.2em;
 }
 
-#sk-container-id-2 div.sk-label-container {
+#sk-container-id-1 div.sk-label-container {
   text-align: center;
 }
 
 /* Estimator-specific */
-#sk-container-id-2 div.sk-estimator {
+#sk-container-id-1 div.sk-estimator {
   font-family: monospace;
   border: 1px dotted var(--sklearn-color-border-box);
   border-radius: 0.25em;
@@ -915,18 +941,18 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-2 div.sk-estimator.fitted {
+#sk-container-id-1 div.sk-estimator.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
 /* on hover */
-#sk-container-id-2 div.sk-estimator:hover {
+#sk-container-id-1 div.sk-estimator:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-2 div.sk-estimator.fitted:hover {
+#sk-container-id-1 div.sk-estimator.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
@@ -1017,7 +1043,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 
 /* "?"-specific style due to the `<a>` HTML tag */
 
-#sk-container-id-2 a.estimator_doc_link {
+#sk-container-id-1 a.estimator_doc_link {
   float: right;
   font-size: 1rem;
   line-height: 1em;
@@ -1032,7 +1058,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
 }
 
-#sk-container-id-2 a.estimator_doc_link.fitted {
+#sk-container-id-1 a.estimator_doc_link.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
   border: var(--sklearn-color-fitted-level-1) 1pt solid;
@@ -1040,14 +1066,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 }
 
 /* On hover */
-#sk-container-id-2 a.estimator_doc_link:hover {
+#sk-container-id-1 a.estimator_doc_link:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-3);
   color: var(--sklearn-color-background);
   text-decoration: none;
 }
 
-#sk-container-id-2 a.estimator_doc_link.fitted:hover {
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
@@ -1184,8 +1210,8 @@ a.param-doc-link::before {
     height: 14px;
     cursor: pointer;
 }
-</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('standardscaler', StandardScaler()),
-                ('kneighborsregressor', KNeighborsRegressor())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></div></label><div class="sk-toggleable__content " data-param-prefix="">
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('standardscaler', StandardScaler()),
+                ('kneighborsregressor', KNeighborsRegressor())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></div></label><div class="sk-toggleable__content " data-param-prefix="">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
@@ -1254,7 +1280,7 @@ is completed.</span></a></td>
 
             </details>
         </div>
-    </div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>StandardScaler</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="standardscaler__">
+    </div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>StandardScaler</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="standardscaler__">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
@@ -1300,7 +1326,7 @@ unit standard deviation).</span></a></td>
 
             </details>
         </div>
-    </div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"><label for="sk-estimator-id-6" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>KNeighborsRegressor</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.neighbors.KNeighborsRegressor.html">?<span>Documentation for KNeighborsRegressor</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="kneighborsregressor__">
+    </div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>KNeighborsRegressor</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.neighbors.KNeighborsRegressor.html">?<span>Documentation for KNeighborsRegressor</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="kneighborsregressor__">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
@@ -1539,13 +1565,13 @@ function forceTheme(elementId) {
     }
 }
 
-forceTheme('sk-container-id-2');</script>
+forceTheme('sk-container-id-1');</script>
 </div>
 </div>
 </section>
-<section id="grid-search-for-best-k-with-cross-validation" class="level4">
-<h4 class="anchored" data-anchor-id="grid-search-for-best-k-with-cross-validation">Grid Search for best K with Cross Validation</h4>
-<p>We will perform a grid seearch to identify the optimal number of neighbours (<span class="math inline">\(K\)</span>) for the <span class="math inline">\(K\)</span>-Nearest Neighbors regression model. This involves evaluating a range of <span class="math inline">\(K\)</span> values between 1 and 29 using cross validation on the training set to measure model performance. The best performing value of K will be used to fit the final model and evaluate its performance on the test set.</p>
+<section id="grid-search-for-best-k-with-cross-validation" class="level4" data-number="3.4.3">
+<h4 data-number="3.4.3" class="anchored" data-anchor-id="grid-search-for-best-k-with-cross-validation"><span class="header-section-number">3.4.3</span> Grid Search for best K with Cross Validation</h4>
+<p>We will perform a grid seearch to identify the optimal number of neighbours (<span class="math inline">K</span>) for the <span class="math inline">K</span>-Nearest Neighbors regression model. This involves evaluating a range of <span class="math inline">K</span> values between 1 and 29 using cross validation on the training set to measure model performance. The best performing value of K will be used to fit the final model and evaluate its performance on the test set.</p>
 <div class="cell" data-execution_count="11">
 <div id="tbl-grid-search" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="11">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -1553,7 +1579,7 @@ forceTheme('sk-container-id-2');</script>
 Table&nbsp;4
 </figcaption>
 <div aria-describedby="tbl-grid-search-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1633,13 +1659,13 @@ Figure&nbsp;4: Mean CV Score vs K in Cross Validation
 </div>
 </div>
 </div>
-<p>We can see in <a href="#tbl-grid-search" class="quarto-xref">Table&nbsp;4</a>, the top performing value of <span class="math inline">\(K\)</span> is 21, providing a CV score of 0.344 and training score of 0.412.</p>
-<p><a href="#fig-knn-regression-mean_cv-k" class="quarto-xref">Figure&nbsp;4</a> shows that the CV score drastically increases between <span class="math inline">\(K\)</span>=1 and <span class="math inline">\(K\)</span>=5, and peaks at <span class="math inline">\(K\)</span>=21.</p>
+<p>We can see in <a href="#tbl-grid-search" class="quarto-xref">Table&nbsp;4</a>, the top performing value of <span class="math inline">K</span> is 21, providing a CV score of 0.344 and training score of 0.412.</p>
+<p><a href="#fig-knn-regression-mean_cv-k" class="quarto-xref">Figure&nbsp;4</a> shows that the CV score drastically increases between <span class="math inline">K</span>=1 and <span class="math inline">K</span>=5, and peaks at <span class="math inline">K</span>=21.</p>
 </section>
-<section id="evaluating-on-the-test-set" class="level4">
-<h4 class="anchored" data-anchor-id="evaluating-on-the-test-set">Evaluating on the Test Set</h4>
-<p>After selecting the optimal value of <span class="math inline">\(K\)</span> = 21, we will fit the final <span class="math inline">\(K\)</span>-Nearest Neighbors model on the training set and evaluate the model performance on unseen data (test set). We will use <span class="math inline">\(R^2\)</span> to assess the quality of the predictions.</p>
-<div id="fc442b34" class="cell" data-execution_count="13">
+<section id="evaluating-on-the-test-set" class="level4" data-number="3.4.4">
+<h4 data-number="3.4.4" class="anchored" data-anchor-id="evaluating-on-the-test-set"><span class="header-section-number">3.4.4</span> Evaluating on the Test Set</h4>
+<p>After selecting the optimal value of <span class="math inline">K</span> = 21, we will fit the final <span class="math inline">K</span>-Nearest Neighbors model on the training set and evaluate the model performance on unseen data (test set). We will use <span class="math inline">R^2</span> to assess the quality of the predictions.</p>
+<div id="bc71db58" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
 <pre><code>CV Score: 0.34352
 Test Score: 0.34658</code></pre>
@@ -1648,12 +1674,12 @@ Test Score: 0.34658</code></pre>
 </section>
 </section>
 </section>
-<section id="discussion" class="level2">
-<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<section id="discussion" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="discussion"><span class="header-section-number">4</span> Discussion</h2>
 <p><strong>Summary of Findings</strong></p>
-<p>In this project, we aimed to predict the sensory quality of “Vinho Verde” wine based on 11 physicochemical properties using a <span class="math inline">\(K\)</span>-Nearest Neighbors (KNN) regression model. After standardizing the features and performing a grid search with cross-validation, we identified the optimal number of neighbors to be <span class="math inline">\(K\)</span> = 21. Evaluating this tuned model on our unseen test set yielded an <span class="math inline">\(R^2\)</span> score of 0.347. This indicates that our model explains approximately 34.66% of the variance in wine quality scores.</p>
+<p>In this project, we aimed to predict the sensory quality of “Vinho Verde” wine based on 11 physicochemical properties using a <span class="math inline">K</span>-Nearest Neighbors (KNN) regression model. After standardizing the features and performing a grid search with cross-validation, we identified the optimal number of neighbors to be <span class="math inline">K</span> = 21. Evaluating this tuned model on our unseen test set yielded an <span class="math inline">R^2</span> score of 0.347. This indicates that our model explains approximately 34.66% of the variance in wine quality scores.</p>
 <p><strong>Were the Results Expected?</strong></p>
-<p>While an <span class="math inline">\(R^2\)</span> score of 0.347 demonstrates a positive, measurable relationship between the chemical properties and quality, it highlights a relatively modest predictive performance. These results are not entirely surprising. As indicated by our exploratory data analysis, most physicochemical features had weak linear correlations with the quality score, with alcohol content (0.44) and volatile acidity (-0.27) being the strongest predictors. Furthermore, wine tasting is an inherently subjective and highly complex sensory experience. A human’s perception of “quality” is influenced by intricate chemical interactions, aromatic compounds, and balance, which may not be fully captured by 11 basic chemical measurements or a simple distance-based algorithm like KNN.</p>
+<p>While an <span class="math inline">R^2</span> score of 0.347 demonstrates a positive, measurable relationship between the chemical properties and quality, it highlights a relatively modest predictive performance. These results are not entirely surprising. As indicated by our exploratory data analysis, most physicochemical features had weak linear correlations with the quality score, with alcohol content (0.44) and volatile acidity (-0.27) being the strongest predictors. Furthermore, wine tasting is an inherently subjective and highly complex sensory experience. A human’s perception of “quality” is influenced by intricate chemical interactions, aromatic compounds, and balance, which may not be fully captured by 11 basic chemical measurements or a simple distance-based algorithm like KNN.</p>
 <p><strong>Impact of Findings</strong></p>
 <p>Despite the modest accuracy, establishing this baseline relationship holds practical value for the wine industry. For wine producers and vineyards, predictive modeling can serve as an objective, early-stage screening tool. While it cannot entirely replace expert sommeliers or sensory panels, a chemical-based predictive model could be used during the fermentation and blending processes to flag potentially low-quality batches early on, saving time and resources in quality control. For consumers, quantifying these metrics paves the way for a more consistent product on store shelves.</p>
 <p><strong>Future Questions and Next Steps</strong></p>
