@@ -4,8 +4,8 @@
 # Targets that are not files
 .PHONY: all clean
 
-# endered report
-all: notebooks/wine_quality_prediction.html
+# Rendered report
+all: _output/notebooks/wine_quality_prediction.html
 
 # Download Data
 data/wine_quality_raw.csv: scripts/download_data.py
@@ -26,7 +26,7 @@ results/cv_results.csv results/model_scores.csv results/cv_scores_vs_k.png: data
 	python scripts/train_model.py --train-path data/train.csv --test-path data/test.csv --output-dir results
 
 # Render Report
-notebooks/wine_quality_prediction.html: notebooks/wine_quality_prediction.qmd \
+_output/notebooks/wine_quality_prediction.html: notebooks/wine_quality_prediction.qmd \
                                         notebooks/references.bib \
                                         results/summary_stats.csv \
                                         results/quality_distribution.png \
@@ -42,4 +42,4 @@ clean:
 	rm -f data/*.csv
 	rm -f results/*.csv
 	rm -f results/*.png
-	rm -f notebooks/wine_quality_prediction.html
+	rm -rf _output/
