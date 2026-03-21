@@ -7,3 +7,4 @@ services:
       - .:/home/jovyan/work
     working_dir: /home/jovyan/work
     command: start-notebook.sh --NotebookApp.token=''
+    
