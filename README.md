@@ -17,7 +17,7 @@ This project investigates whether the quality of wine can be predicted from its 
 
 1. Install [Docker](https://www.docker.com/get-started).
 
-### Running the Analysis
+### Running With Docker
 
 1. Clone this repository:
 
@@ -26,38 +26,27 @@ This project investigates whether the quality of wine can be predicted from its 
    cd dsci-310-group-03
    ```
 
-2. Pull and run the Docker container:
+2. Pull the image from DockerHub:
 
    ```bash
-   docker pull jacoblum22/dsci-310-group-03:latest
-   docker run --rm -p 8888:8888 -v "$(pwd)":/home/jovyan/work jacoblum22/dsci-310-group-03:latest
+   docker pull jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e
    ```
 
-3. Open the Jupyter notebook URL printed in the terminal and navigate to the analysis notebook.
+3. Launch the container with Docker Compose:
 
-*TODO: Update Docker image name and any additional steps once the environment is finalized.*
-## Running With Docker 
-1. Pull the image from DockerHub
+   ```bash
+   docker compose up
+   ```
 
-Open the terminal and use the bash command:
- ```bash
- docker pull jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e
- ```
+   This will start the container, launch Jupyter Lab at http://localhost:8888, and mount the project directory inside the container at `/home/jovyan/work`.
 
-2. Launch the container with Docker Compose 
+4. Run the full analysis. Once the container is running, open a terminal in Jupyter Lab and run:
 
-Make sure you are in the project root, then run:
-```bash
-docker compose up
-```
-This will start the container, launch Jupyter Lab at: http://localhost:8888, and mount the project directory inside the container at /home/jovyan/work 
+   ```bash
+   make all
+   ```
 
-3. Run the full analysis
-Once the container is running, open a terminal in Jupyter Lab and run:
-``` bash
-make all
-```
-This will reproduce the full analysis pipeline, including data processing, modeling, and results.
+   This will reproduce the full analysis pipeline, including data processing, modeling, and results.
 
 ## Dependencies
 
