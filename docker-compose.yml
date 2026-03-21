@@ -1,0 +1,9 @@
+services:
+  analysis:
+    image: jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+    working_dir: /home/jovyan/work
+    command: start-notebook.sh --NotebookApp.token=''
