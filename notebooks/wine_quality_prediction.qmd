@@ -35,12 +35,12 @@ To model the relationship between the chemical inputs and the quality output, we
 import pandas as pd
 from IPython.display import Markdown
 
-wine_df = pd.read_csv("../data/wine_quality_raw.csv")
+wine_df = pd.read_csv("../data/raw/wine_quality_raw.csv")
 
 wine_df.head()
 ```
 
-The Wine Quality dataset is loaded from the pre-downloaded `data/wine_quality_raw.csv`, which was retrieved from the UCI Machine Learning Repository by the data download script. @tbl-wine-head shows the first 5 rows of the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alcohol levels.
+The Wine Quality dataset is loaded from the pre-downloaded `data/raw/wine_quality_raw.csv`, which was retrieved from the UCI Machine Learning Repository by the data download script. @tbl-wine-head shows the first 5 rows of the dataset. Each row represents a single wine sample, with 11 continuous features describing chemical characteristics such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, sulfur dioxide, density, pH level, sulphates, and alcohol levels.
 
 ### Data
 
@@ -157,8 +157,8 @@ We can observe a slight positive correlation between Wine Quality and alcohol co
 ### Regression Analysis
 
 ```{python}
-train_df = pd.read_csv("../data/train.csv")
-test_df = pd.read_csv("../data/test.csv")
+train_df = pd.read_csv("../data/processed/train.csv")
+test_df = pd.read_csv("../data/processed/test.csv")
 model_scores = pd.read_csv("../results/model_scores.csv")
 cv_results = pd.read_csv("../results/cv_results.csv")
 
