@@ -40,17 +40,23 @@ This project investigates whether the quality of wine can be predicted from its 
 1. Pull the image from DockerHub
 
 Open the terminal and use the bash command:
- ```docker pull jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e```
+ ```bash
+ docker pull jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e
+ ```
 
 2. Launch the container with Docker Compose 
 
 Make sure you are in the project root, then run:
-```docker compose up```
+```bash
+docker compose up
+```
 This will start the container, launch Jupyter Lab at: http://localhost:8888, and mount the project directory inside the container at /home/jovyan/work 
 
 3. Run the full analysis
 Once the container is running, open a terminal in Jupyter Lab and run:
-``` make all```
+``` bash
+make all
+```
 This will reproduce the full analysis pipeline, including data processing, modeling, and results.
 
 ## Dependencies
