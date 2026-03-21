@@ -29,8 +29,8 @@ This project investigates whether the quality of wine can be predicted from its 
 2. Pull and run the Docker container:
 
    ```bash
-   docker pull <dockerhub-username>/dsci-310-group-03
-   docker run --rm -p 8888:8888 <dockerhub-username>/dsci-310-group-03
+   docker pull jacoblum22/dsci-310-group-03:latest
+   docker run --rm -p 8888:8888 -v "$(pwd)":/home/jovyan/work jacoblum22/dsci-310-group-03:latest
    ```
 
 3. Open the Jupyter notebook URL printed in the terminal and navigate to the analysis notebook.
@@ -68,6 +68,7 @@ The project dependencies are listed in [environment.yml](environment.yml). Key p
 - pandas
 - scikit-learn
 - matplotlib
+- seaborn
 - ucimlrepo
 
 ## Licenses

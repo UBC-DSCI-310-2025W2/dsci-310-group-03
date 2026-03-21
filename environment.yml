@@ -8,5 +8,9 @@ dependencies:
   - pandas
   - scikit-learn
   - matplotlib
+  - seaborn
+  - pip
   - pip:
     - ucimlrepo
+    - click
+    - tabulate
