@@ -29,7 +29,7 @@ This project investigates whether the quality of wine can be predicted from its 
 2. Pull the image from DockerHub:
 
    ```bash
-   docker pull jacoblum22/dsci-310-group-03@sha256:ff021892fac1b14f2dfa9fe20b392ba29e1a76dce17624354533be63f92e9c8e
+   docker pull jacoblum22/dsci-310-group-03@sha256:08be05f3f5feb5ab41a2f0a77031df070539edeb69df7aeb9f45d8ee6a6d60fa
    ```
 
 3. Launch the container with Docker Compose:
