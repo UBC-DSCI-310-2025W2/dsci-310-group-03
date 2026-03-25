@@ -6,6 +6,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import make_pipeline
+from src.data_utils import extract_features_and_target
 
 
 @click.command()
@@ -34,10 +35,9 @@ def main(train_path, test_path, output_dir):
     train_df = pd.read_csv(train_path)
     test_df = pd.read_csv(test_path)
 
-    X_train = train_df.drop(columns=["quality"])
-    y_train = train_df["quality"]
-    X_test = test_df.drop(columns=["quality"])
-    y_test = test_df["quality"]
+    # REPLACED MANUAL DROP WITH FUNCTION CALL
+    X_train, y_train = extract_features_and_target(train_df, "quality")
+    X_test, y_test = extract_features_and_target(test_df, "quality")
 
     # Build pipeline
     pipe = make_pipeline(StandardScaler(), KNeighborsRegressor())
