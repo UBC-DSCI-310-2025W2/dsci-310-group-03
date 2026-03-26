@@ -2,11 +2,8 @@ import click
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.pipeline import make_pipeline
 from src.data_utils import extract_features_and_target
+from src.model_utils import run_knn_grid_search
 
 
 @click.command()
@@ -39,19 +36,13 @@ def main(train_path, test_path, output_dir):
     X_train, y_train = extract_features_and_target(train_df, "quality")
     X_test, y_test = extract_features_and_target(test_df, "quality")
 
-    # Build pipeline
-    pipe = make_pipeline(StandardScaler(), KNeighborsRegressor())
-
-    # Grid search over K = 1..29 with cross-validation
-    k_values = list(range(1, 30))
-    param_grid = {"kneighborsregressor__n_neighbors": k_values}
-    grid = GridSearchCV(pipe, param_grid, n_jobs=-1, return_train_score=True)
-    grid.fit(X_train, y_train)
-
-    best_k = grid.best_params_["kneighborsregressor__n_neighbors"]
-    best_cv_score = grid.best_score_
-    best_model = grid.best_estimator_
-    best_train_score = best_model.score(X_train, y_train)
+    # Run grid search
+    results = run_knn_grid_search(X_train, y_train)
+    best_k = results["best_k"]
+    best_cv_score = results["best_cv_score"]
+    best_model = results["best_model"]
+    best_train_score = results["best_train_score"]
+    cv_results = results["cv_results_df"]
     test_score = best_model.score(X_test, y_test)
 
     print(f"Best K: {best_k}")
@@ -60,15 +51,6 @@ def main(train_path, test_path, output_dir):
     print(f"Test R²:  {test_score:.5f}")
 
     # Save CV results table
-    cv_results = pd.DataFrame(grid.cv_results_)[
-        [
-            "params",
-            "mean_test_score",
-            "std_test_score",
-            "mean_train_score",
-            "std_train_score",
-        ]
-    ]
     cv_results.to_csv(os.path.join(output_dir, "cv_results.csv"), index=False)
     print(f"CV results table saved to {output_dir}/cv_results.csv")
 
@@ -83,9 +65,9 @@ def main(train_path, test_path, output_dir):
     print(f"Model scores table saved to {output_dir}/model_scores.csv")
 
     # Save CV score vs K figure
-    cv_df = pd.DataFrame(grid.cv_results_)
+    k_values = list(range(1, 30))
     plt.figure(figsize=(10, 5))
-    plt.plot(k_values, cv_df["mean_test_score"])
+    plt.plot(k_values, cv_results["mean_test_score"])
     plt.scatter(best_k, best_cv_score, color="red", zorder=5, label=f"Best K={best_k}")
     plt.xlabel("Number of Neighbors (K)")
     plt.ylabel("Mean CV Score (R²)")
