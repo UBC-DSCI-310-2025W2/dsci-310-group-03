@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+from src.plot_utils import plot_correlation_heatmap
 
 
 @click.command()
@@ -43,13 +44,7 @@ def main(input_path, output_dir):
     print(f"Quality distribution plot saved to {output_dir}/quality_distribution.png")
 
     # Figure 2: Correlation Heatmap
-    plt.figure(figsize=(8, 7))
-    sns.heatmap(wine_df.corr(numeric_only=True), annot=True, fmt=".2f", cmap="coolwarm")
-    plt.title("Correlation Heatmap of Wine Features")
-    plt.savefig(
-        os.path.join(output_dir, "correlation_heatmap.png"), bbox_inches="tight"
-    )
-    plt.close()
+    plot_correlation_heatmap(wine_df, os.path.join(output_dir, "correlation_heatmap.png"))
     print(f"Correlation heatmap saved to {output_dir}/correlation_heatmap.png")
 
     # Figure 3: Alcohol Content by Wine Quality
