@@ -9,7 +9,7 @@
 
 ## Summary
 
-This project investigates whether the quality of wine can be predicted from its physicochemical properties. Using the [Wine Quality dataset](https://archive.ics.uci.edu/dataset/186/wine+quality) from the UCI Machine Learning Repository (Cortez et al., 2009), we apply K-Nearest Neighbors (KNN) regression to predict wine quality scores based on features such as alcohol content, acidity, pH, and residual sugar. The dataset contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples.
+This project investigates whether the quality of wine can be predicted from its physicochemical properties. Using the [Wine Quality dataset](https://archive.ics.uci.edu/dataset/186/wine+quality) from the UCI Machine Learning Repository (Cortez et al., 2009), we apply K-Nearest Neighbors (KNN) regression to predict wine quality scores based on features such as alcohol content, acidity, pH, and residual sugar. The dataset contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples. We found that there is a measurable relationship between the chemical properties and quality, however it has a relatively modest predictive performance. These results are not entirely surprising as many of the physicochemical features had weak linear correlations with the quality score,
 
 ## How to Run the Analysis
 
@@ -47,6 +47,12 @@ This project investigates whether the quality of wine can be predicted from its 
    ```
 
    This will reproduce the full analysis pipeline, including data processing, modeling, and results.
+
+5. After you are finished, you can stop the container.
+
+    ```bash
+   docker compose down
+   ```
 
 ## Dependencies
 
