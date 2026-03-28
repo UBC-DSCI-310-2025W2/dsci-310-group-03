@@ -3,7 +3,7 @@ import pytest
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from src.plot_utils import plot_correlation_heatmap
+from src.plot_utils import plot_correlation_heatmap, plot_quality_distribution
 # `plot_correlation_heatmap` should return a PNG of a heatmap figure
 
 # to run tests
@@ -62,7 +62,6 @@ class TestRunPlotCorrelationHeatmap:
         plot_correlation_heatmap(numeric_df, output)
         assert os.path.exists(output)
 
-from src.plot_utils import plot_quality_distribution
 
 class TestPlotQualityDistribution:
     """Tests for plot_quality_distribution."""
