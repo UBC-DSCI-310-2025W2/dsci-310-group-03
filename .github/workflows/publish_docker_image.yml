@@ -24,6 +24,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -31,3 +32,16 @@ jobs:
           tags: |
             jacoblum22/dsci-310-group-03:latest
             jacoblum22/dsci-310-group-03:${{ github.sha }}
+
+      - name: Update docker-compose.yml with new digest
+        run: |
+          NEW_DIGEST="${{ steps.build.outputs.digest }}"
+          sed -i "s|jacoblum22/dsci-310-group-03@sha256:[a-f0-9]*|jacoblum22/dsci-310-group-03@${NEW_DIGEST}|" docker-compose.yml
+
+      - name: Commit updated digest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docker-compose.yml
+          git diff --cached --quiet || git commit -m "ci: update Docker image digest to ${GITHUB_SHA::7}"
+          git push

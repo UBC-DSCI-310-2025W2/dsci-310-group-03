@@ -31,6 +31,8 @@ results/*
 
 # Quarto rendered output
 _output/
+notebooks/wine_quality_prediction.html
+notebooks/wine_quality_prediction_files/
 
 !results/.gitkeep
 

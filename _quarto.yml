@@ -1,5 +1,5 @@
 project:
-  output-dir: notebooks
+  output-dir: _output
 
 toc: true
 number-sections: true
