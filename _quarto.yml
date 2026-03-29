@@ -7,7 +7,6 @@ bibliography: notebooks/references.bib
   
 format:
   html:
-    css: styles.css
     html-math-method: katex
   pdf:
     documentclass: report
