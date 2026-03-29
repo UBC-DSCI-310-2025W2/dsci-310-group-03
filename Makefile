@@ -9,7 +9,7 @@ all: _output/notebooks/wine_quality_prediction.html
 
 # Download Data
 data/raw/wine_quality_raw.csv: scripts/download_data.py
-	python scripts/download_data.py --output-path data/raw/wine_quality_raw.csv
+	python -m scripts.download_data --output-path data/raw/wine_quality_raw.csv
 
 # Preprocess Data
 data/processed/train.csv data/processed/test.csv: data/raw/wine_quality_raw.csv scripts/preprocess_data.py

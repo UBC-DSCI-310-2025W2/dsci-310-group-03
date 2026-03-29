@@ -1,6 +1,6 @@
 services:
   analysis:
-    image: jacoblum22/dsci-310-group-03@sha256:08be05f3f5feb5ab41a2f0a77031df070539edeb69df7aeb9f45d8ee6a6d60fa
+    image: jacoblum22/dsci-310-group-03@sha256:b88aaf638ca3379d2478c4c27d60a68d6cd50db9e732d1bba63a79c2da124f2d
     ports:
       - "8888:8888"
     volumes:

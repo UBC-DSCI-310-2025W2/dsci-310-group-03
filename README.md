@@ -9,7 +9,7 @@
 
 ## Summary
 
-This project investigates whether the quality of wine can be predicted from its physicochemical properties. Using the [Wine Quality dataset](https://archive.ics.uci.edu/dataset/186/wine+quality) from the UCI Machine Learning Repository (Cortez et al., 2009), we apply K-Nearest Neighbors (KNN) regression to predict wine quality scores based on features such as alcohol content, acidity, pH, and residual sugar. The dataset contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples. We found that there is a measurable relationship between the chemical properties and quality, however it has a relatively modest predictive performance. These results are not entirely surprising as many of the physicochemical features had weak linear correlations with the quality score,
+This project investigates whether the quality of wine can be predicted from its physicochemical properties. Using the [Wine Quality dataset](https://archive.ics.uci.edu/dataset/186/wine+quality) from the UCI Machine Learning Repository (Cortez et al., 2009), we apply K-Nearest Neighbors (KNN) regression to predict wine quality scores based on features such as alcohol content, acidity, pH, and residual sugar. The dataset contains physicochemical measurements and sensory quality ratings for Portuguese "Vinho Verde" wine samples. We found that there is a measurable relationship between the chemical properties and quality, however it has a relatively modest predictive performance. These results are not entirely surprising as many of the physicochemical features had weak linear correlations with the quality score, suggesting that wine quality may depend on complex, nonlinear interactions among these properties.
 
 ## How to Run the Analysis
 
@@ -29,7 +29,7 @@ This project investigates whether the quality of wine can be predicted from its 
 2. Pull the image from DockerHub:
 
    ```bash
-   docker pull jacoblum22/dsci-310-group-03@sha256:08be05f3f5feb5ab41a2f0a77031df070539edeb69df7aeb9f45d8ee6a6d60fa
+   docker pull jacoblum22/dsci-310-group-03@sha256:b88aaf638ca3379d2478c4c27d60a68d6cd50db9e732d1bba63a79c2da124f2d
    ```
 
 3. Launch the container with Docker Compose:
