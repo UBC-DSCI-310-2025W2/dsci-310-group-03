@@ -31,5 +31,3 @@ jobs:
           tags: |
             jacoblum22/dsci-310-group-03:latest
             jacoblum22/dsci-310-group-03:${{ github.sha }}
-
-          git push
