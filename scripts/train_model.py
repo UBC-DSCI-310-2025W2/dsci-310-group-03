@@ -32,7 +32,6 @@ def main(train_path, test_path, output_dir):
     train_df = pd.read_csv(train_path)
     test_df = pd.read_csv(test_path)
 
-    # REPLACED MANUAL DROP WITH FUNCTION CALL
     X_train, y_train = extract_features_and_target(train_df, "quality")
     X_test, y_test = extract_features_and_target(test_df, "quality")
 

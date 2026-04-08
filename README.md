@@ -15,9 +15,9 @@ This project investigates whether the quality of wine can be predicted from its 
 
 ### Prerequisites
 
-1. Install [Docker](https://www.docker.com/get-started).
+1. Install [Docker](https://www.docker.com/get-started) (recommended), **or** install [Conda](https://docs.conda.io/en/latest/miniconda.html) (Miniconda or Miniforge).
 
-### Running With Docker
+### Running With Docker (Recommended)
 
 1. Clone this repository:
 
@@ -54,17 +54,57 @@ This project investigates whether the quality of wine can be predicted from its 
    docker compose down
    ```
 
+### Running Without Docker (Using Conda)
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/UBC-DSCI-310-2025W2/dsci-310-group-03.git
+   cd dsci-310-group-03
+   ```
+
+2. Create and activate the conda environment from `environment.yml`:
+
+   ```bash
+   conda env create -f environment.yml
+   conda activate dsci-310-group-03
+   ```
+
+3. Run the full analysis:
+
+   ```bash
+   make all
+   ```
+
+4. To clean all generated files and re-run from scratch:
+
+   ```bash
+   make clean
+   make all
+   ```
+
+## Data
+
+The analysis uses the [Wine Quality dataset](https://archive.ics.uci.edu/dataset/186/wine+quality) from the UCI Machine Learning Repository (Cortez et al., 2009). The raw data is **not** committed to this repository — it is automatically downloaded when you run the pipeline (`make all`). The download script (`scripts/download_data.py`) fetches the dataset via the `ucimlrepo` package and saves it to `data/raw/wine_quality_raw.csv`. Processed train/test splits are saved to `data/processed/`.
+
+If you need to access the raw data directly, you can download it from: https://archive.ics.uci.edu/dataset/186/wine+quality
+
 ## Dependencies
 
-The project dependencies are listed in [environment.yml](environment.yml). Key packages include:
+The project dependencies are managed via [environment.yml](environment.yml). Key packages and their versions:
 
-- Python 3.11
-- JupyterLab
-- pandas
-- scikit-learn
-- matplotlib
-- seaborn
-- ucimlrepo
+| Package | Version |
+|---|---|
+| Python | 3.11 |
+| JupyterLab | 4.5.6 |
+| pandas | 3.0.1 |
+| scikit-learn | 1.8.0 |
+| matplotlib | 3.10.8 |
+| seaborn | 0.13.2 |
+| pytest | 9.0.2 |
+| ucimlrepo | 0.0.7 |
+| click | 8.3.1 |
+| tabulate | 0.10.0 |
 
 ## Licenses
 
