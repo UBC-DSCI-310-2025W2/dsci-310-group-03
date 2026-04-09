@@ -28,7 +28,6 @@ def main(input_path, train_output_path, test_output_path):
     """Split the wine quality dataset into training (70%) and test (30%) sets."""
     wine_df = pd.read_csv(input_path)
 
-    # REPLACED MANUAL DROP WITH FUNCTION CALL
     X, y = extract_features_and_target(wine_df, "quality")
 
     X_train, X_test, y_train, y_test = train_test_split(
