@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from ucimlrepo import fetch_ucirepo
 
+
 @click.command()
 @click.option(
     "--output-path",

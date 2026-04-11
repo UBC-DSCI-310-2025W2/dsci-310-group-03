@@ -6,6 +6,7 @@ import warnings
 from sklearn.model_selection import train_test_split
 from src.data_utils import extract_features_and_target
 
+
 @click.command()
 @click.option(
     "--input-path",
