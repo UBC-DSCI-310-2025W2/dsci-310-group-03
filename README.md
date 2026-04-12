@@ -29,7 +29,7 @@ This project investigates whether the quality of wine can be predicted from its 
 2. Pull the image from DockerHub:
 
    ```bash
-   docker pull jacoblum22/dsci-310-group-03@sha256:b88aaf638ca3379d2478c4c27d60a68d6cd50db9e732d1bba63a79c2da124f2d
+   docker pull jacoblum22/dsci-310-group-03@sha256:e69bf54a3686be8cc48fc2544b1f8d6418495aaca68d99dbb88772fdbbd9ec61
    ```
 
 3. Launch the container with Docker Compose:
@@ -101,7 +101,6 @@ The project dependencies are managed via [environment.yml](environment.yml). Key
 | scikit-learn | 1.8.0 |
 | matplotlib | 3.10.8 |
 | seaborn | 0.13.2 |
-| pytest | 9.0.2 |
 | ucimlrepo | 0.0.7 |
 | click | 8.3.1 |
 | tabulate | 0.10.0 |

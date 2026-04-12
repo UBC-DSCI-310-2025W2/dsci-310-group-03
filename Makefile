@@ -45,9 +45,9 @@ clean:
 	rm -f results/*.png
 	rm -rf _output/
 
-# Run all unit tests
+# Run all unit tests (in the winepredictor package)
 test:
-	python -m pytest tests/
+	python -m pytest --pyargs winepredictor
 
 # Helper to explain the Makefile
 help:
