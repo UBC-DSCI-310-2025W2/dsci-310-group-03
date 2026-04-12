@@ -105,6 +105,25 @@ The project dependencies are managed via [environment.yml](environment.yml). Key
 | ucimlrepo | 0.0.7 |
 | click | 8.3.1 |
 | tabulate | 0.10.0 |
+| winepredictor | 0.1.0 |
+
+## Testing
+
+The utility functions used by this analysis (data processing, model training, and plotting) are packaged in [winepredictor](https://github.com/UBC-DSCI-310-2025W2/winepredictor). Tests live in that package repository and can be run with:
+
+```bash
+pip install "winepredictor[dev] @ git+https://github.com/UBC-DSCI-310-2025W2/winepredictor.git@v0.1.0"
+pytest --pyargs winepredictor
+```
+
+Alternatively, clone the package repo and run tests directly:
+
+```bash
+git clone https://github.com/UBC-DSCI-310-2025W2/winepredictor.git
+cd winepredictor
+pip install -e ".[dev]"
+pytest tests/ -v
+```
 
 ## Licenses
 

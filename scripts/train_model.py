@@ -1,3 +1,7 @@
+# train_model.py
+# Trains a KNN regression model on the preprocessed wine quality data.
+# Performs grid search over K values and saves results and figures.
+
 import click
 import pandas as pd
 import matplotlib.pyplot as plt

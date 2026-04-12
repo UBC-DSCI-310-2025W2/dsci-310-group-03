@@ -1,3 +1,7 @@
+# preprocess_data.py
+# Validates and preprocesses the raw wine quality data.
+# Runs data validation checks, then splits into train/test sets.
+
 import click
 import pandas as pd
 import os
