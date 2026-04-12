@@ -2,8 +2,8 @@ import click
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-from src.data_utils import extract_features_and_target
-from src.model_utils import run_knn_grid_search
+from winepredictor.data_utils import extract_features_and_target
+from winepredictor.model_utils import run_knn_grid_search
 
 
 @click.command()
@@ -81,3 +81,4 @@ def main(train_path, test_path, output_dir):
 
 if __name__ == "__main__":
     main()
+

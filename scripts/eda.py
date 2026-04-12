@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-from src.plot_utils import plot_correlation_heatmap, plot_quality_distribution
+from winepredictor.plot_utils import plot_correlation_heatmap, plot_quality_distribution
 
 
 @click.command()

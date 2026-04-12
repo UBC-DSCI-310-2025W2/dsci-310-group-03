@@ -9,9 +9,8 @@ dependencies:
   - scikit-learn=1.8.0 
   - matplotlib=3.10.8 
   - seaborn=0.13.2  
-  - pytest=9.0.2 
   - pip:
-
     - ucimlrepo==0.0.7 
     - click==8.3.1 
-    - tabulate==0.10.0 
+    - tabulate==0.10.0
+    - git+https://github.com/UBC-DSCI-310-2025W2/winepredictor.git@v0.1.0
