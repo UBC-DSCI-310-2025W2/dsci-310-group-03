@@ -1,3 +1,7 @@
+# eda.py
+# Performs exploratory data analysis on the wine quality dataset.
+# Generates summary statistics, distribution plots, and a correlation heatmap.
+
 import click
 import pandas as pd
 import matplotlib.pyplot as plt

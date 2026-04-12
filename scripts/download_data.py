@@ -1,3 +1,7 @@
+# download_data.py
+# Downloads the Wine Quality dataset from the UCI ML Repository
+# and saves the raw data as a CSV file.
+
 import click
 import pandas as pd
 import os
